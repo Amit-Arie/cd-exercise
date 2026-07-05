@@ -32,5 +32,14 @@ pipeline {
                 }
             }
         }
+
+        stage('Deploy Application') {
+            steps {
+                script {
+                    sh "docker rm -f ${REPO_NAME} || true"
+                    sh "docker run -d -p 5000:5000 --name ${REPO_NAME} ${ECR_REGISTRY}/${REPO_NAME}:${IMAGE_TAG}"
+                }
+            }
+        }
     }
 }
